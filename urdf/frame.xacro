@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Imports -->
+    <xacro:include filename="params.xacro" />
+    <xacro:include filename="inertial_macros.xacro" />
+
+    <!-- Materials -->
+    <material name="frame_material">
+        <color rgba="0.25 0.878 0.816 1" />
+    </material>
+
+    <!-- Base link -->
+    <link name="base_link"></link>
+    <link name="base_footprint"></link>
+
+    <joint name="footprint_joint" type="fixed">  
+        <parent link="base_link"/>
+        <child link="base_footprint"/>
+        <origin xyz="0 0 ${frame_height/2}"/>
+    </joint>
+
+    <!-- Frame -->
+    <link name="frame">
+        <visual>
+            <origin xyz="0 0 0"/>
+            <geometry>
+                <box size="${frame_length} ${frame_width} ${frame_height}"/>
+            </geometry>
+            <material name="frame_material"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0"/>
+            <geometry>
+                <box size="${frame_length} ${frame_width} ${frame_height}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="10.0" x="${frame_length}" y="${frame_width}" z="${frame_height}">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </xacro:inertial_box>
+    </link>
+
+    <joint name="frame_joint" type="fixed">  
+        <parent link="base_link"/>
+        <child link="frame"/>
+        <origin xyz="0 0 0"/>
+    </joint>
+    
+</robot>
